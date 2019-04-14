@@ -31,6 +31,7 @@
                            
 	    header("Content-Type: application/jason; charset-utf8");
             echo json_encode(array("book_names"=>$book_names), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
+	}
 
     }
 
