@@ -12,6 +12,7 @@
     {
 
         $user_id=$_POST["user_id"];
+	$state=$_POST["state"];
 
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
@@ -21,17 +22,23 @@
         if (!isset($errMSG)) {
 
             try {
-
-                $bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
-                $bookmark_stmt->bindParam(":member_id", $user_id);
-                $bookmark_stmt->execute();
 		
- 		// If there is a match by user_id
-                if ($bookmark_stmt->rowCount() > 0) {
+		if ($state == 1)		// BookMark
+		    $stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
+		else if ($state == 2)	// Sell
+		    $stmt = $con->prepare("SELECT * FROM register_book WHERE seller_id=:member_id");
+		else if ($state == 3)	// Buy
+		    $stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
+	
+                $stmt->bindParam(":member_id", $user_id);
+                $stmt->execute();
+		
+ 		// 사용자와 맞는 레코드가 있다면
+                if ($stmt->rowCount() > 0) {
 		    $whole_data = array();
 		
-		    // Get all books
-		    while($userRow=$bookmark_stmt->fetch(PDO::FETCH_ASSOC)) {
+		    // 모든 책의 정보를 저장한다.
+		    while($userRow=$stmt->fetch(PDO::FETCH_ASSOC)) {
 			$book_data = array();
 
 //		    	$book_data["success"] = true;
@@ -39,16 +46,18 @@
 //		    	$response["user_id"] = $userRow["member_id"];
 
 			extract($userRow);
-					
+			
+			// 책 등록 정보 가져오기		
 		    	$register_stmt = $con->prepare("SELECT * FROM register_book WHERE book_register_id=:register_id LIMIT 1");
 		    	$register_stmt->bindParam(":register_id", $userRow["book_register_id"]);
 		    	$register_stmt->execute();
 		    	$register_row = $register_stmt->fetch(PDO::FETCH_ASSOC);
-
+			
 		    	if ($register_stmt->rowCount() > 0) {
-//			    $book_data["register_id"] = $register_row["book_register_id"];
+			    $book_data["register_id"] = $register_row["book_register_id"];
 			    $book_data["selling_price"] = $register_row["ISBN"];
 			    
+			    // 책 정보 가져오기
 			    $book_stmt = $con->prepare("SELECT * FROM book WHERE ISBN=:isbn LIMIT 1");
 			    $book_stmt->bindParam(":isbn", $register_row["ISBN"]);
 			    $book_stmt->execute();
@@ -65,6 +74,7 @@
 
 		    }
 
+		    // Json 형식으로 값 전달
 		    header("Content-Type: application/jason; charset-utf8");
 		    $json = json_encode(array("bookmark"=>$whole_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 		    echo $json;
