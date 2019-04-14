@@ -22,7 +22,7 @@
         $phonenum=$_POST["phonenum"];
         $school=$_POST["school"];
 
-	echo "Test";
+	
 
         if(empty($id)){
             $errMSG = "아이디를 입력하세요.";
