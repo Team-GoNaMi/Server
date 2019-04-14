@@ -43,7 +43,7 @@
 		    $response["cover"] = $userRow["cover"];
 		    $response["damage_page"] = $userRow["damage_page"];
 		
-		    $book_stmt = $con->prepare("SELECT * FROM book WHERE ISBN=:isbn LIMIT1");
+		    $book_stmt = $con->prepare("SELECT * FROM book WHERE ISBN=:isbn LIMIT 1");
 		    $book_stmt->bindParam(":isbn", $userRow["ISBN"]);
 		    $book_stmt->execute();
 		    $book_row = $book_stmt->fetch(PDO::FETCH_ASSOC);
