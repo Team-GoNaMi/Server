@@ -11,29 +11,24 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android )
     {
 
-        $user_id=$_POST["user_id"];
-	$state=$_POST["state"];
+	$num = $_POST["num"];
 
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
-        if (empty($user_id))
-            $errMSG ="사용자 아이디를 넘겨주세요.";
+        if (empty($num))
+            $errMSG ="개수를 받아와 주세요.";
 
         if (!isset($errMSG)) {
 
             try {
+		$start = $num * 20;
 		
-		if ($state == 1)		// BookMark
-		    $stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
-		else if ($state == 2)	// Sell
-		    $stmt = $con->prepare("SELECT * FROM register_book WHERE seller_id=:member_id");
-		else if ($state == 3)	// Buy
-		    $stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
-	
-                $stmt->bindParam(":member_id", $user_id);
+		$stmt = $con->prepare("SELECT * FROM register_book ORDER BY register_id ASC LIMIT 20 OFFSET $start");
                 $stmt->execute();
 		
- 		// 사용자와 맞는 레코드가 있다면
+		
+
+ 		// 레코드 20개만큼 돌면서
                 if ($stmt->rowCount() > 0) {
 		    $whole_data = array();
 		
@@ -76,7 +71,7 @@
 
 		    // Json 형식으로 값 전달
 		    header("Content-Type: application/jason; charset-utf8");
-		    $json = json_encode(array("bookmark"=>$whole_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
+		    $json = json_encode(array("search"=>$whole_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 		    echo $json;
 
 		}	

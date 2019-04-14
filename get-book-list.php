@@ -76,7 +76,7 @@
 
 		    // Json 형식으로 값 전달
 		    header("Content-Type: application/jason; charset-utf8");
-		    $json = json_encode(array("bookmark"=>$whole_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
+		    $json = json_encode(array("book_list"=>$whole_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 		    echo $json;
 
 		}	
