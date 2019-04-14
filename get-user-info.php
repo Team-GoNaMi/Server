@@ -23,7 +23,7 @@
 
         if (!isset($errMSG)) {
             try {
-                $stmt = $con->prepare("SELECT * FROM member WHERE ID=:id LIMIT 1");
+                $stmt = $con->prepare("SELECT * FROM member WHERE member_id=:id LIMIT 1");
                 $stmt->bindParam("id", $id);
                 $stmt->execute();
                 $userRow=$stmt->fetch(PDO::FETCH_ASSOC);

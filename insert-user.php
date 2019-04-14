@@ -48,7 +48,7 @@
                 $hashed_pw = password_hash($password, PASSWORD_DEFAULT);
 		echo $hashed_pw;
 
-                $stmt = $con->prepare("INSERT INTO member(ID, password, name, phonenum, school) VALUES(:id, :hashed_pw, :name, :phonenum, :school)");
+                $stmt = $con->prepare("INSERT INTO member(member_id, password, name, phonenum, school) VALUES(:id, :hashed_pw, :name, :phonenum, :school)");
                 $stmt->bindParam(":id", $id);
                 $stmt->bindParam(":hashed_pw", $hashed_pw);
 	        $stmt->bindParam(":name", $name);
@@ -72,26 +72,3 @@
     }
 
 ?>
-
-
-<html>
-    <body>
-        <?php 
-        if (isset($errMSG)) echo $errMSG;
-        if (isset($successMSG)) echo $successMSG;
-
-	    $android = strpos($_SERVER["HTTP_USER_AGENT"], "Android");
-   
-        if( !$android )
-        ?>
-         <form action="<?php $_PHP_SELF ?>" method="POST">
-              ID: <input type = "text" id = "id" />
-              Password: <input type = "text" password = "password" />
-	      Name: <input type = "text" name = "name" />
-	      Phonenum: <input type = "text" phonenum = "phonenum" />
-	      School: <input type = "text" school = "school" />
-              <input type = "submit" name = "submit" />
-          </form>
- 
-     </body>
-</html>
