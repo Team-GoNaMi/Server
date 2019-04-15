@@ -11,32 +11,33 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android )
     {
 
-	$num = $_POST["num"];
-
+//	$num = $_POST["num"];
+//	$num = 0;
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
-        if (empty($num))
-            $errMSG ="개수를 받아와 주세요.";
+//        if (empty($num))
+//            $errMSG ="개수를 받아와 주세요.";
 
         if (!isset($errMSG)) {
 
             try {
-		$start = $num * 20;
+//		$start = $num * 20;
 		
-		$stmt = $con->prepare("SELECT * FROM register_book ORDER BY register_id ASC LIMIT 20 OFFSET $start");
-                $stmt->execute();
+//		$stmt = $con->prepare("SELECT * FROM register_book ORDER BY register_id ASC LIMIT 20 OFFSET $start");
+		$stmt = $con->prepare("SELECT * FROM register_book ORDER BY book_register_id ASC");
+		$stmt->execute();
 		
 		
 
  		// 레코드 20개만큼 돌면서
-                if ($stmt->rowCount() > 0) {
+		if ($stmt->rowCount() > 0) {
 		    $whole_data = array();
 		
 		    // 모든 책의 정보를 저장한다.
 		    while($userRow=$stmt->fetch(PDO::FETCH_ASSOC)) {
 			$book_data = array();
 
-//		    	$book_data["success"] = true;
+		    	$book_data["success"] = true;
 //		    	$response["register_id"] = $userRow["book_register_id"];
 //		    	$response["user_id"] = $userRow["member_id"];
 
@@ -50,13 +51,13 @@
 			
 		    	if ($register_stmt->rowCount() > 0) {
 			    $book_data["register_id"] = $register_row["book_register_id"];
-			    $book_data["selling_price"] = $register_row["ISBN"];
+			    $book_data["selling_price"] = $register_row["price"];
 			    
 			    // 책 정보 가져오기
 			    $book_stmt = $con->prepare("SELECT * FROM book WHERE ISBN=:isbn LIMIT 1");
 			    $book_stmt->bindParam(":isbn", $register_row["ISBN"]);
 			    $book_stmt->execute();
-			    $book_row = $book_stmt->fetch(PDO::FETCHASSOC);
+			    $book_row = $book_stmt->fetch(PDO::FETCH_ASSOC);
 			
 			    if ($book_stmt->rowCount() > 0) {
 				$book_data["book_name"] = $book_row["name"];
@@ -74,7 +75,8 @@
 		    $json = json_encode(array("search"=>$whole_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 		    echo $json;
 
-		}	
+		}
+	
             } catch (PDOException $e) {
                  die("Database error : " .$e.getMessage());
             }

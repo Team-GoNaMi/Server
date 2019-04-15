@@ -55,15 +55,15 @@
 			
 		    	if ($register_stmt->rowCount() > 0) {
 			    $book_data["register_id"] = $register_row["book_register_id"];
-			    $book_data["selling_price"] = $register_row["ISBN"];
+			    $book_data["selling_price"] = $register_row["price"];
 			    
 			    // 책 정보 가져오기
 			    $book_stmt = $con->prepare("SELECT * FROM book WHERE ISBN=:isbn LIMIT 1");
 			    $book_stmt->bindParam(":isbn", $register_row["ISBN"]);
 			    $book_stmt->execute();
-			    $book_row = $book_stmt->fetch(PDO::FETCHASSOC);
+			    $book_row = $book_stmt->fetch(PDO::FETCH_ASSOC);
 			
-			    if ($book_stmt->rowCount() > 0) {
+i			    if ($book_stmt->rowCount() > 0) {
 				$book_data["book_name"] = $book_row["name"];
 				$book_data["author"] = $book_row["author"];
 				$book_data["publisher"] = $book_row["publisher"];
