@@ -8,8 +8,7 @@
 
     error_log("TST", 0);
 
-    if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android )
-    {
+    if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
         $register_id=$_POST["register_id"];
 
@@ -22,44 +21,37 @@
 
             try {
 
-                $register_stmt = $con->prepare("SELECT * FROM register_book WHERE book_register_id=:register_id LIMIT 1");
+                $register_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book WHERE book_register_id=:register_id LIMIT 1");
                 $register_stmt->bindParam(":register_id", $register_id);
                 $register_stmt->execute();
-		$userRow=$register_stmt->fetch(PDO::FETCH_ASSOC); 
+				$bookInfoRow = $register_stmt->fetch(PDO::FETCH_ASSOC); 
 
-                $response = array();
-                $response["success"] = false;
+                $book_data = array();
+                $book_data["success"] = false;
 
                 if ($register_stmt->rowCount() > 0) {
-		    $response["success"] = true;
-		    $response["register_id"] = $userRow["book_register_id"];
-		    $response["ISBN"] = $userRow["ISBN"];
-		    $response["seller_id"] = $userRow["seller_id"];
-		    $response["selling_price"] = $userRow["price"];
-		    $response["memo"] = $userRow["memo"];
-		    $response["buy_avail"] = $userRow["buy_avail"];
-		    $response["underline"] = $userRow["underline"];
-		    $response["writing"] = $userRow["writing"];
-		    $response["cover"] = $userRow["cover"];
-		    $response["damage_page"] = $userRow["damage_page"];
-		
-		    $book_stmt = $con->prepare("SELECT * FROM book WHERE ISBN=:isbn LIMIT 1");
-		    $book_stmt->bindParam(":isbn", $userRow["ISBN"]);
-		    $book_stmt->execute();
-		    $book_row = $book_stmt->fetch(PDO::FETCH_ASSOC);
+					$book_data["success"] = true;
+					$book_data["register_id"] = $bookInfoRow["book_register_id"];
+					$book_data["ISBN"] = $bookInfoRow["ISBN"];
+					$book_data["seller_id"] = $bookInfoRow["seller_id"];
+					$book_data["selling_price"] = $bookInfoRow["selling_price"];
+					$book_data["memo"] = $bookInfoRow["memo"];
+					$book_data["buy_avail"] = $bookInfoRow["buy_avail"];
+					$book_data["underline"] = $bookInfoRow["underline"];
+					$book_data["writing"] = $bookInfoRow["writing"];
+					$book_data["cover"] = $bookInfoRow["cover"];
+					$book_data["damage_page"] = $bookInfoRow["damage_page"];
+					
+					$book_data["book_name"] = $bookInfoRow["name"];
+					$book_data["author"] = $bookInfoRow["author"];
+					$book_data["publisher"] = $bookInfoRow["publisher"];
+					$book_data["original_price"] = $bookInfoRow["original_price"];
+					$book_data["publish_date"] = $bookInfoRow["publish_date"];
 
-		    if ($book_stmt->rowCount() > 0) {
-			$response["book_name"] = $book_row["name"];
-			$response["author"] = $book_row["author"];
-			$response["publisher"] = $book_row["publisher"];
-			$response["original_price"] = $book_row["price"];
-			$response["publish_date"] = $book_row["publish_date"];
-		    }		    
-
-		}
+				}
                     
                 header("Content-Type: application/jason; charset-utf8");
-                echo json_encode($response, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
+                echo json_encode($book_data, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 
             } catch (PDOException $e) {
                  die("Database error : " .$e.getMessage());
