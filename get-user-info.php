@@ -38,7 +38,8 @@
                    
                         $response["success"] = true;
                         $response["id"] = $id;
-			$response["pw"] = $password;
+						$response["pw"] = $password;
+						$response["name"] = $userRow["name"];
                     }
 		}
                     
