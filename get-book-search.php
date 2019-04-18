@@ -26,7 +26,6 @@
 					while($userRow=$basic_stmt->fetch(PDO::FETCH_ASSOC)) {
 						$book_data = array();
 		
-						$book_data["success"] = true;
 						$book_data["register_id"] = $userRow["book_register_id"];
 						$book_data["selling_price"] = $userRow["selling_price"];
 						$book_data["book_name"] = $userRow["name"];
