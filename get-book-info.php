@@ -11,7 +11,7 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
         $register_id=$_POST["register_id"];
-
+		$user_id = $_POST["user_id"];
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
         if (empty($register_id))
@@ -47,6 +47,17 @@
 					$book_data["publisher"] = $bookInfoRow["publisher"];
 					$book_data["original_price"] = $bookInfoRow["original_price"];
 					$book_data["publish_date"] = $bookInfoRow["publish_date"];
+
+
+					$bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE book_register_id=:register_id AND member_id=:user_id");
+					$bookmark_stmt->bindParam(":register_id", $register_id);
+					$bookmark_stmt->bindParam(":user_id", $user_id);
+					$bookmark_stmt->execute();
+
+					if ($bookmark_stmt->rowCount() > 0) 
+						$book_data["bookmark"] = true;
+					else
+						$book_data["bookmark"] = false;
 
 				}
                     

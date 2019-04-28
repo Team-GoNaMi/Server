@@ -25,16 +25,16 @@
                 $stmt->bindParam(":id", $id);
                 $stmt->execute();
 		
-		$response = array();
+				$response = array();
                 $response["success"] = false;
 		
-		// ID가 같은 게 없으면
+				// ID가 같은 게 없으면
                 if ($stmt->rowCount() == 0) {
-		    $response["success"] = true;
-		    $response["id"] = $id;
+					$response["success"] = true;
+					$response["id"] = $id;
                 }
                     
-		header("Content-Type: application/jason; charset-utf8");
+				header("Content-Type: application/jason; charset-utf8");
                 echo json_encode($response, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 
 

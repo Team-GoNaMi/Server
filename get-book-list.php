@@ -11,7 +11,7 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
         $user_id=$_POST["user_id"];
-//		$state=$_POST["state"];
+		$state=$_POST["state"];
 
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
@@ -22,20 +22,20 @@
 
             try {
 		
-//				if ($state == 1)		// BookMark
-//					$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
-//				else if ($state == 2)	// Sell
-				$stmt = $con->prepare("SELECT * FROM register_book WHERE seller_id=:member_id");
+				if ($state == "1")		// BookMark
+					$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
+				else if ($state == "2")	// Sell
+					$stmt = $con->prepare("SELECT * FROM register_book WHERE seller_id=:member_id");
 //				else if ($state == 3)	// Buy
 //					$stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
 	
                 $stmt->bindParam(":member_id", $user_id);
                 $stmt->execute();
-		
+				
+				$whole_data = array();
+				
 				// 사용자와 맞는 레코드가 있다면
                 if ($stmt->rowCount() > 0) {
-
-					$whole_data = array();
 		
 					// 모든 책의 정보를 저장한다.
 					while($userRow=$stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -51,10 +51,10 @@
 			
 						if ($book_stmt->rowCount() > 0) {
 							$book_data["register_id"] = $book_row["book_register_id"];
-							$book_data["selling_price"] = $book_row["price"];
+							$book_data["selling_price"] = $book_row["selling_price"];
 							$book_data["book_name"] = $book_row["name"];
 							$book_data["author"] = $book_row["author"];
-							$book_data["publisher"] = $book_row["author"];
+							$book_data["publisher"] = $book_row["publisher"];
 							$book_data["original_price"] = $book_row["original_price"];
 						}	
 
