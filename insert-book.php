@@ -34,7 +34,9 @@
 		$memo=$_POST["memo"];
 		$buy_avail=$_POST["buy_avail"];
 
-
+		echo $school;
+		echo " |||| ";
+		echo $book_image;
 
         if(empty($isbn)){
 		    $errMSG = "ISBN을 입력해 주세요.";
@@ -99,11 +101,45 @@
 			 	else {
 				    $errMSG = "책 등록 에러";
 				}
+
+/*
+				// TODO 학교 추가
+				
+				$school = preg_replace("/\s+/","",$school);
+				echo "  ////  ".$school;
+				preg_replace("/\\[/", "", $school);
+				echo "  ////  ".$school;
+				preg_replace("/(\])/", "", $school);
+				echo "  ////  ".$ischool;
+
+				echo " //// " .$school;
+				$school_list = array();
+				if (strpos($school, ',')) {
+					$school_list = explode(',', $school);
+				}
+				else {
+					array_push($school_list, $school);
+				}
+
+				for ($i = 0; $i < count($school_list); $i++) {
+					$school_stmt = $con->prepare("INSERT INTO book_school(book_register_id, school) VALUES(:register_id, :school)");
+					$school_stmt->bindParam(":register_id", $register_id);
+					$school_stmt->bindParam(":school", $school_list[$i]);
+					$school_stmt->execute();
+				}
+
+//				$school_stmt = $con->prepare("");
+//				$school_stmt->bindParam("", );
+//				$school_stmt->bindParam("",);
+
+
+
+
+				// TODO 책 사진 추가
+*/
 			} catch (PDOException $e) {
 				die("Database error :" . $e->getMessage());
 			}
-		
-			// TODO 책 사진 추가 및 학교 추가
  
 		}       
     }
