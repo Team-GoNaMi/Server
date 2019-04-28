@@ -50,12 +50,23 @@
 						$book_row = $book_stmt->fetch(PDO::FETCH_ASSOC);
 			
 						if ($book_stmt->rowCount() > 0) {
-							$book_data["register_id"] = $book_row["book_register_id"];
+							$register_id = $book_row["book_register_id"];
+							$book_data["register_id"] = $register_id;
 							$book_data["selling_price"] = $book_row["selling_price"];
 							$book_data["book_name"] = $book_row["name"];
 							$book_data["author"] = $book_row["author"];
 							$book_data["publisher"] = $book_row["publisher"];
 							$book_data["original_price"] = $book_row["original_price"];
+
+							$bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE book_register_id=:register_id AND member_id=:user_id");
+							$bookmark_stmt->bindParam(":register_id", $register_id);
+							$bookmark_stmt->bindParam(":user_id", $user_id);
+							$bookmark_stmt->execute();
+
+						    if ($bookmark_stmt->rowCount() > 0)
+								$book_data["bookmark"] = true;
+							else
+								$book_data["bookmark"] = false;
 						}	
 
 						array_push($whole_data, $book_data);		    
