@@ -58,6 +58,7 @@
 							$book_data["publisher"] = $book_row["publisher"];
 							$book_data["original_price"] = $book_row["original_price"];
 
+							// BookMark
 							$bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE book_register_id=:register_id AND member_id=:user_id");
 							$bookmark_stmt->bindParam(":register_id", $register_id);
 							$bookmark_stmt->bindParam(":user_id", $user_id);
@@ -67,6 +68,36 @@
 								$book_data["bookmark"] = true;
 							else
 								$book_data["bookmark"] = false;
+
+
+							// 학교 추가
+							$school_stmt = $con->prepare("SELECT * FROM book_school WHERE book_register_id=:register_id");
+							$school_stmt->bindParam(":register_id", $register_id);
+							$school_stmt->execute();
+
+							$school = "";
+							while($schoolRow = $school_stmt->fetch(PDO::FETCH_ASSOC)) {
+								$school = $school . $schoolRow["school"] . ", ";
+							}
+							$school = substr($school, 0, -1);
+							$school = substr($school, 0, -1);
+
+							$book_data["school"] = $school;
+
+
+							// 이미지 추가
+							$image_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
+							$image_stmt->bindParam(":register_id", $register_id);
+							$image_stmt->execute();
+
+							$image = "";
+							while($imageRow = $image_stmt->fetch(PDO::FETCH_ASSOC)) {
+								$image = $image . $imageRow["photo"] . ",";
+							}
+							$image = substr($image, 0, -1);
+							$image = substr($image, 0, -1);
+
+							$book_data["book_images"] = $image;
 						}	
 
 						array_push($whole_data, $book_data);		    

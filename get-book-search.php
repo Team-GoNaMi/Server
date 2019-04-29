@@ -41,14 +41,29 @@
 
 						$school = "";
 						while($schoolRow = $school_stmt->fetch(PDO::FETCH_ASSOC)) {
-							$school = $school . $schoolRow["school"] . ",";
-//							echo "/" .$school;
+							$school = $school . $schoolRow["school"] . ", ";
 						}
 						$school = substr($school, 0, -1);
-//						echo " //// " .$school;
+						$school = substr($school, 0, -1);
 
 						$book_data["school"] = $school;
-			
+
+
+						// 이미지 추가
+						$image_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
+						$image_stmt->bindParam(":register_id", $register_id);
+						$image_stmt->execute();
+
+						$image = "";
+						while($imageRow = $image_stmt->fetch(PDO::FETCH_ASSOC)) {
+							$image = $image . $imageRow["photo"] . ",";
+						}
+						$image = substr($image, 0, -1);
+						$image = substr($image, 0, -1);
+
+						$book_data["book_images"] = $image;
+
+
 						array_push($whole_data, $book_data);
 					}
 
