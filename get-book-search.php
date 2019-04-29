@@ -59,7 +59,7 @@
 							$image = $image . $imageRow["photo"] . ",";
 						}
 						$image = substr($image, 0, -1);
-						$image = substr($image, 0, -1);
+			
 
 						$book_data["book_images"] = $image;
 
