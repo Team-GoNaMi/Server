@@ -34,8 +34,8 @@
 		$memo=$_POST["memo"];
 		$buy_avail=$_POST["buy_avail"];
 
-		echo $school;
-		echo " |||| ";
+//		echo $school;
+//		echo " |||| ";
 		echo $book_image;
 
         if(empty($isbn)){
@@ -102,17 +102,11 @@
 				    $errMSG = "책 등록 에러";
 				}
 
-/*
-				// TODO 학교 추가
-				
-				$school = preg_replace("/\s+/","",$school);
-				echo "  ////  ".$school;
-				preg_replace("/\\[/", "", $school);
-				echo "  ////  ".$school;
-				preg_replace("/(\])/", "", $school);
-				echo "  ////  ".$ischool;
 
-				echo " //// " .$school;
+				// 학교 추가
+				$school = preg_replace("/\s+/","",$school);
+//				echo "  ////  ".$school;
+
 				$school_list = array();
 				if (strpos($school, ',')) {
 					$school_list = explode(',', $school);
@@ -120,6 +114,7 @@
 				else {
 					array_push($school_list, $school);
 				}
+//				echo " //// " .$school_list[0];
 
 				for ($i = 0; $i < count($school_list); $i++) {
 					$school_stmt = $con->prepare("INSERT INTO book_school(book_register_id, school) VALUES(:register_id, :school)");
@@ -128,15 +123,28 @@
 					$school_stmt->execute();
 				}
 
-//				$school_stmt = $con->prepare("");
-//				$school_stmt->bindParam("", );
-//				$school_stmt->bindParam("",);
 
+				// 책 사진 추가
+				$book_image = preg_replace("/\s+/","",$book_image);	
+				echo " //// " .$book_image;
 
+				$image_list = array();
+				if (strpos($book_image, ',')) {
+					$image_list = explode(',', $book_image);
+				}
+				else {
+					array_push($image_list, $book_image);
+				}
+				echo " //// ".$image_list[0];
 
+				for ($i = 0; $i < count($image_list); $i++) {
+					$image_stmt = $con->prepare("INSERT INTO book_photo(book_register_id, photo) VALUES(:register_id, :image)");
+					$image_stmt->bindParam(":register_id", $register_id);
+					$image_stmt->bindParam(":image", $image_list[$i]);
+					$image_stmt->execute();
+				}
+				
 
-				// TODO 책 사진 추가
-*/
 			} catch (PDOException $e) {
 				die("Database error :" . $e->getMessage());
 			}

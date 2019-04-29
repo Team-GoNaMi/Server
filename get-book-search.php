@@ -25,14 +25,30 @@
 
 					while($userRow=$basic_stmt->fetch(PDO::FETCH_ASSOC)) {
 						$book_data = array();
+						$register_id = $userRow["book_register_id"];
 		
-						$book_data["register_id"] = $userRow["book_register_id"];
+						$book_data["register_id"] = $register_id;
 						$book_data["selling_price"] = $userRow["selling_price"];
 						$book_data["book_name"] = $userRow["name"];
 						$book_data["author"] = $userRow["author"];
 						$book_data["publisher"] = $userRow["publisher"];
 						$book_data["original_price"] = $userRow["original_price"];
 
+						// 학교 추가
+						$school_stmt = $con->prepare("SELECT * FROM book_school WHERE book_register_id=:register_id");
+						$school_stmt->bindParam(":register_id", $register_id);
+						$school_stmt->execute();
+
+						$school = "";
+						while($schoolRow = $school_stmt->fetch(PDO::FETCH_ASSOC)) {
+							$school = $school . $schoolRow["school"] . ",";
+//							echo "/" .$school;
+						}
+						$school = substr($school, 0, -1);
+//						echo " //// " .$school;
+
+						$book_data["school"] = $school;
+			
 						array_push($whole_data, $book_data);
 					}
 
