@@ -21,12 +21,12 @@
 		$publisher=$_POST["publisher"];
 		$original_price=$_POST["original_price"];
 		$publish_date=$_POST["publish_date"];
+		$book_image=$_POST["book_image"];	// 책 네이버 이미지
 
 		$register_id=$_POST["register_id"];
 		$seller_id=$_POST["seller_id"];
-		$school=$_POST["school"];
 		$selling_price=$_POST["selling_price"];
-		$book_image=$_POST["book_image"];
+		
 		$underline=$_POST["underline"];
 		$writing=$_POST['writing'];
 		$cover=$_POST["cover"];
@@ -34,9 +34,9 @@
 		$memo=$_POST["memo"];
 		$buy_avail=$_POST["buy_avail"];
 
-//		echo $school;
-//		echo " |||| ";
-		echo $book_image;
+		$school=$_POST["school"];	
+		$book_photo=$_POST["book_photo"];	// 사용자가 찍은 책 사진
+
 
         if(empty($isbn)){
 		    $errMSG = "ISBN을 입력해 주세요.";
@@ -60,14 +60,14 @@
             	try{
 				// SQL문을 실행하여 데이터를 MySQL 서버의 person 테이블에 저장합니다.
 
-					$stmt = $con->prepare("INSERT INTO book(ISBN, name, author, publisher, original_price, publish_date) VALUES(:isbn, :name, :author, :publisher, :original_price, :publish_date)");
+					$stmt = $con->prepare("INSERT INTO book(ISBN, name, author, publisher, original_price, publish_date, book_image) VALUES(:isbn, :name, :author, :publisher, :original_price, :publish_date, :book_image)");
 					$stmt->bindParam(":isbn", $isbn);
 					$stmt->bindParam(":name", $book_name);
 					$stmt->bindParam(":author", $author);
 					$stmt->bindParam(":publisher", $publisher);
 					$stmt->bindParam(":original_price", $original_price);
 					$stmt->bindParam(":publish_date", $publish_date);
-		
+					$stmt->bindParam(":book_image", $book_image);	
 
             	    if($stmt->execute()) {
                     	$successMSG = "새로운 책을 추가했습니다.";
@@ -125,22 +125,22 @@
 
 
 				// 책 사진 추가
-				$book_image = preg_replace("/\s+/","",$book_image);	
-				echo " //// " .$book_image;
+				$book_photo = preg_replace("/\s+/","",$book_photo);	
+//				echo " //// " .$book_photo;
 
-				$image_list = array();
-				if (strpos($book_image, ',')) {
-					$image_list = explode(',', $book_image);
+				$photo_list = array();
+				if (strpos($book_photo, ',')) {
+					$image_photo = explode(',', $book_photo);
 				}
 				else {
-					array_push($image_list, $book_image);
+					array_push($photo_list, $photo_image);
 				}
-				echo " //// ".$image_list[0];
+//				echo " //// ".$image_list[0];
 
-				for ($i = 0; $i < count($image_list); $i++) {
-					$image_stmt = $con->prepare("INSERT INTO book_photo(book_register_id, photo) VALUES(:register_id, :image)");
+				for ($i = 0; $i < count($photo_list); $i++) {
+					$image_stmt = $con->prepare("INSERT INTO book_photo(book_register_id, photo) VALUES(:register_id, :photo)");
 					$image_stmt->bindParam(":register_id", $register_id);
-					$image_stmt->bindParam(":image", $image_list[$i]);
+					$image_stmt->bindParam(":photo", $photo_list[$i]);
 					$image_stmt->execute();
 				}
 				

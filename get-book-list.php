@@ -57,6 +57,7 @@
 							$book_data["author"] = $book_row["author"];
 							$book_data["publisher"] = $book_row["publisher"];
 							$book_data["original_price"] = $book_row["original_price"];
+							$book_data["book_image"] = $book_row["book_image"];
 
 							// BookMark
 							$bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE book_register_id=:register_id AND member_id=:user_id");
@@ -70,7 +71,7 @@
 								$book_data["bookmark"] = false;
 
 
-							// 학교 추가
+							// 학교
 							$school_stmt = $con->prepare("SELECT * FROM book_school WHERE book_register_id=:register_id");
 							$school_stmt->bindParam(":register_id", $register_id);
 							$school_stmt->execute();
@@ -84,8 +85,8 @@
 
 							$book_data["school"] = $school;
 
-
-							// 이미지 추가
+/*
+							// 이미지
 							$image_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
 							$image_stmt->bindParam(":register_id", $register_id);
 							$image_stmt->execute();
@@ -97,6 +98,7 @@
 							$image = substr($image, 0, -1);
 
 							$book_data["book_images"] = $image;
+*/
 						}	
 
 						array_push($whole_data, $book_data);		    

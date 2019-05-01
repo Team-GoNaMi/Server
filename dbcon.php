@@ -1,8 +1,8 @@
 <?php
     $host = 'localhost';
-    $username = 'root'; # MySQL 계정 아이디
+    $username = 'gonami'; # MySQL 계정 아이디
     $password = 'gonami'; # MySQL 계정 패스워드
-    $dbname = 'bookbb';  # DATABASE 이름
+    $dbname = 'bookboxbook';  # DATABASE 이름
 
 
     $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');

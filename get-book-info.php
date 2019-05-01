@@ -47,6 +47,8 @@
 					$book_data["publisher"] = $bookInfoRow["publisher"];
 					$book_data["original_price"] = $bookInfoRow["original_price"];
 					$book_data["publish_date"] = $bookInfoRow["publish_date"];
+					$book_data["book_image"] = $bookInfoRow["book_image"];
+					
 
 					// BookMark
 					$bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE book_register_id=:register_id AND member_id=:user_id");
@@ -74,21 +76,21 @@
 
 					$book_data["school"] = $school;
 
-
+/*
 					// 이미지 추가
-					$image_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
-					$image_stmt->bindParam(":register_id", $register_id);
-					$image_stmt->execute();
+					$photo_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
+					$photo_stmt->bindParam(":register_id", $register_id);
+					$photo_stmt->execute();
 
-					$image = "";
-					while($imageRow = $image_stmt->fetch(PDO::FETCH_ASSOC)) {
-						$image = $image . $imageRow["photo"] . ",";
+					$photo = "";
+					while($photoRow = $image_stmt->fetch(PDO::FETCH_ASSOC)) {
+						$photo = $photo . $photoRow["photo"] . ",";
 					}
-					$image = substr($image, 0, -1);
+					$photo = substr($photo, 0, -1);
 
 
-					$book_data["book_images"] = $image;
-
+					$book_data["book_photo"] = $photo;
+*/
 				}
                     
                 header("Content-Type: application/jason; charset-utf8");
