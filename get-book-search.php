@@ -18,10 +18,12 @@
 
 				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book ORDER BY book_register_id ASC");
 				$basic_stmt->execute();
-	
+
+				$whole_data = array();
+
 				if($basic_stmt->rowCount() > 0) {
 					
-					$whole_data = array();
+//					$whole_data = array();
 
 					while($userRow=$basic_stmt->fetch(PDO::FETCH_ASSOC)) {
 						$book_data = array();

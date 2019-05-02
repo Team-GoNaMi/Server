@@ -123,7 +123,7 @@
 					$school_stmt->execute();
 				}
 
-
+/*
 				// 책 사진 추가
 				$book_photo = preg_replace("/\s+/","",$book_photo);	
 //				echo " //// " .$book_photo;
@@ -143,7 +143,7 @@
 					$image_stmt->bindParam(":photo", $photo_list[$i]);
 					$image_stmt->execute();
 				}
-				
+*/				
 
 			} catch (PDOException $e) {
 				die("Database error :" . $e->getMessage());
