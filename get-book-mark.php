@@ -11,7 +11,7 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
         $user_id=$_POST["user_id"];
-		$state=$_POST["state"];
+//		$state=$_POST["state"];
 
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
@@ -21,14 +21,15 @@
         if (!isset($errMSG)) {
 
             try {
-		
+				$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
+/*	
 				if ($state == "1")		// BookMark
 					$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
 				else if ($state == "2")	// Sell
 					$stmt = $con->prepare("SELECT * FROM register_book WHERE seller_id=:member_id");
-//				else if ($state == 3)	// Buy
-//					$stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
-	
+				else if ($state == 3)	// Buy
+					$stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
+*/	
                 $stmt->bindParam(":member_id", $user_id);
                 $stmt->execute();
 				

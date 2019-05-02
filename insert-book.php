@@ -103,6 +103,14 @@
 				}
 
 
+				// Trade table에 삽입
+				$state = 0;
+				$trade_stmt = $con->prepare("INSERT INTO trade(book_register_id, state) VALUES(:book_register_id, :state)");
+				$trade_stmt->bindParam(":book_register_id", $register_id);
+				$trade_stmt->bindParam(":state", $state);
+				$trade_stmt->execute();
+
+
 				// 학교 추가
 				$school = preg_replace("/\s+/","",$school);
 //				echo "  ////  ".$school;
