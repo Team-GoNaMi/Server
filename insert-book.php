@@ -35,7 +35,7 @@
 		$buy_avail=$_POST["buy_avail"];
 
 		$school=$_POST["school"];	
-		$book_photo=$_POST["book_photo"];	// 사용자가 찍은 책 사진
+//		$book_photo=$_POST["book_photo"];	// 사용자가 찍은 책 사진
 
 
         if(empty($isbn)){
@@ -160,4 +160,4 @@
 		}       
     }
 
-?>
+?

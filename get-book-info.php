@@ -41,7 +41,8 @@
 					$book_data["writing"] = $bookInfoRow["writing"];
 					$book_data["cover"] = $bookInfoRow["cover"];
 					$book_data["damage_page"] = $bookInfoRow["damage_page"];
-					
+					$book_data["buy_avail"] = $bookInfoRow["buy_avail"];
+
 					$book_data["book_name"] = $bookInfoRow["name"];
 					$book_data["author"] = $bookInfoRow["author"];
 					$book_data["publisher"] = $bookInfoRow["publisher"];

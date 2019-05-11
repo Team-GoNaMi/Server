@@ -11,7 +11,7 @@
 	if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
 		$searchWord = $_POST["searchWord"];
-		$searchSchool = $_POST["school"];
+		$searchSchool = $_POST["searchSchool"];
 		
 		try {
 			// 검색어가 없고 학교가 전체이면
