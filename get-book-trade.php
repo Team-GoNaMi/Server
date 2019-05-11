@@ -1,4 +1,5 @@
 <?php
+
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
     
@@ -11,7 +12,7 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
         $user_id=$_POST["user_id"];
-//		$state=$_POST["state"];
+		$state=$_POST["state"];
 
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
@@ -22,12 +23,12 @@
 
             try {
 	
-//				if ($state == "1")	// Sell
-//					$stmt = $con->prepare("SELECT * FROM register_book WHERE seliler_id=:member_id");
-//				else if ($state == "2")	// Buy
-//					$stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
-				$stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN trade WHERE seller_id=:member_id");
-	
+				if (strcmp($state, "1") == 0)	// Sell
+					$stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN trade WHERE seller_id=:member_id");
+
+				else if (strcmp($state, "2") == 0)	// Buy
+					$stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
+				
                 $stmt->bindParam(":member_id", $user_id);
                 $stmt->execute();
 				
