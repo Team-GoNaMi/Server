@@ -79,13 +79,24 @@
 							$school_stmt->execute();
 
 							$school = "";
+							$selected = "";
 							while($schoolRow = $school_stmt->fetch(PDO::FETCH_ASSOC)) {
 								$school = $school . $schoolRow["school"] . ", ";
+								
+								if ($schoolRow["selected"] == 1) {
+									$selected = $schoolRow["school"];
+								}
 							}
 							$school = substr($school, 0, -1);
 							$school = substr($school, 0, -1);
 
 							$book_data["school"] = $school;
+
+							if (strlen($school) != 0)
+								$book_data["selected_school"] = $selected;
+							else
+								$book_data["selected_school"] = "null";
+
 
 /*
 							// 이미지
