@@ -11,14 +11,15 @@
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
        try {
                 $stmt = $con->prepare("SELECT * FROM reserve_bb WHERE book_register_id=:register_id LIMIT 1");
-                $stmt->bindParam("register_id", $register_id);
+                $stmt->bindParam(":register_id", $register_id);
                 $stmt->execute();
                 $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
                 $response = array();
                 $response["success"] = false;
                 if ($stmt->rowCount() > 0) {
 		$response["success"] = true;
-                          $response["box_id"] = $box_id;                   
+                          $response["box_id"] = $userRow["box_id"];
+						  $response["date"] = $userRow["date"];
 	   }
                     
                 header("Content-Type: application/jason; charset-utf8");
