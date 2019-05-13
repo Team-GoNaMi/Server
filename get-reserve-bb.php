@@ -18,7 +18,8 @@
                 $response["success"] = false;
                 if ($stmt->rowCount() > 0) {
 		$response["success"] = true;
-                          $response["box_id"] = $box_id;                   
+                          $response["box_id"] = $box_id;        
+			  $response["date"] = $date;   
 	   }
                     
                 header("Content-Type: application/jason; charset-utf8");
