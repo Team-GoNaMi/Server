@@ -17,10 +17,10 @@
                 $response = array();
                 $response["success"] = false;
                 if ($stmt->rowCount() > 0) {
-		$response["success"] = true;
-                          $response["box_id"] = $userRow["box_id"];
-						  $response["date"] = $userRow["date"];
-	   }
+					$response["success"] = true;
+                    $response["box_id"] = $userRow["box_id"];
+					$response["date"] = $userRow["date"];
+				}
                     
                 header("Content-Type: application/jason; charset-utf8");
                 echo json_encode($response, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
