@@ -12,11 +12,12 @@
         $register_id=$_POST["register_id"];
 		
         try{
-			$trade_stmt = $con->prepare("UPDATE trade SET bank=:bank_info, account_num=:account_num WHERE book_register_id=:register_id");
+			$trade_stmt = $con->prepare("UPDATE trade SET bank=:bank_info, account_num=:account_num, state=6 WHERE book_register_id=:register_id");
 			$trade_stmt->bindParam(":bank_info", $bank_info);
 			$trade_stmt->bindParam(":account_num", $account_num);
 			$trade_stmt->bindParam(":register_id", $register_id);
 			$trade_stmt->execute();
+		
 			
         } catch(PDOException $e) {
                 die("Database error: " . $e->getMessage()); 
