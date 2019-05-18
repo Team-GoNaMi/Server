@@ -59,7 +59,7 @@
 							$book_data["original_price"] = $book_row["original_price"];
 							$book_data["book_image"] = $book_row["book_image"];
 							$book_data["state"] = $userRow["state"];
-
+							$book_data["isbn"] = $book_row["ISBN"];
 /*
 							// BookMark
 							$bookmark_stmt = $con->prepare("SELECT * FROM book_mark WHERE book_register_id=:register_id AND member_id=:user_id");
