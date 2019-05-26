@@ -1,9 +1,27 @@
 <?php
-	if(isset($_POST["test"])) {
-		
+	echo "connected ";
+	$test = $_POST["test"];
+
+	echo $test;
+
+//	$conn = mysql_connect("localhost", "gonami", "gonami");
+
+	echo " gg";
+	
+	if (!$conn) {
+		die("Could not connect mysql : " . mysql_error());
+		echo "Could not connect mysql : " . mysql_error();
+	}
+
+	echo "db_connected";
+
+
+/*		
+	if(isset($_POST["test"])) {		
+
 		$test = $_POST["test"];
 		$conn = mysql_connect("localhost", "gonami", "gonami");
-	
+
 		if (!$conn) {
 			die("could not connect : " . mysql_error());
 		}
@@ -27,5 +45,6 @@
 		
 		$json = json_encode(array("member"=>$result_data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
                 echo $json;
-	}
+		}
+ */	
 ?>

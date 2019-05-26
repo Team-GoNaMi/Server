@@ -21,7 +21,7 @@
         $name=$_POST["name"];
         $phonenum=$_POST["phonenum"];
         $school=$_POST["school"];
-
+	$token=$_POST["token"];
 	
 
         if(empty($id)){
@@ -39,21 +39,26 @@
         }
         else if (empty($school)){
             $errMSG = "학교를 입력하세요.";
-        }
+	}
+	else if (empty($token)) {
+	    $errMSG = "토큰 정보가 없습니다.";
+	}
 
         if(!isset($errMSG)) // 모두 입력이 되었다면 
         {
             try{
                 // SQL문을 실행하여 데이터를 MySQL 서버의 person 테이블에 저장합니다.
                 $hashed_pw = password_hash($password, PASSWORD_DEFAULT);
-		echo $hashed_pw;
+//		echo $hashed_pw;
 
-                $stmt = $con->prepare("INSERT INTO member(member_id, password, name, phonenum, school) VALUES(:id, :hashed_pw, :name, :phonenum, :school)");
+		$stmt = $con->prepare("INSERT INTO member(member_id, password, name, phonenum, school) 
+			VALUES(:id, :hashed_pw, :name, :phonenum, :school)");
                 $stmt->bindParam(":id", $id);
                 $stmt->bindParam(":hashed_pw", $hashed_pw);
 	        $stmt->bindParam(":name", $name);
                 $stmt->bindParam(":phonenum", $phonenum);
-                $stmt->bindParam(":school", $school);
+		$stmt->bindParam(":school", $school);
+//		$stmt->bindParam(":token", $token);
 
                 if($stmt->execute())
                 {
@@ -62,7 +67,12 @@
                 else
                 {
                     $errMSG = "사용자 추가 에러";
-                }
+		}
+
+		$token_stmt = $con->prepare("INSERT INTO token(member_id, token) VALUES(:id, :token)");
+		$token_stmt->bindParam(":id", $id);
+		$token_stmt->bindParam(":token", $token);
+		$token_stmt->execute();
 
             } catch(PDOException $e) {
                 die("Database error: " . $e->getMessage()); 
