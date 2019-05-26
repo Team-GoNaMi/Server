@@ -36,7 +36,7 @@
 			$response["pw"] = $password;
 			$response["name"] = $userRow["name"];
 
-			$token_stmt->prepare("UPDATE token SET Token=:token WHERE member_id=:id");
+			$token_stmt = $con->prepare("UPDATE token SET Token=:token WHERE member_id=:id");
 			$token_stmt->bindParam(":token", $token);
 			$token_stmt->bindParam(":id", $id);
 			$token_stmt->execute();

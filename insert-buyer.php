@@ -4,7 +4,8 @@
     ini_set("display_errors",1); 
 
     include("dbcon.php");
-
+    
+    session_start();
 
     $android = strpos($_SERVER["HTTP_USER_AGENT"], "Android");
 
@@ -35,6 +36,9 @@
 			$buy_avail_stmt = $con->prepare("UPDATE register_book SET buy_avail=0 WHERE book_register_id=:register_id");
 			$buy_avail_stmt->bindParam(":register_id", $register_id);
 			$buy_avail_stmt->execute();
+			
+			$_SESSION["register_id"] = $register_id;
+			exec('/var/www/html/fcm.send-notification.php');
 
         } catch(PDOException $e) {
                 die("Database error: " . $e->getMessage()); 
