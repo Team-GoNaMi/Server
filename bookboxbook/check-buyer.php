@@ -8,7 +8,7 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $resgister_id = $_POST["register_id"];
+        $register_id = $_POST["register_id"];
 	$buyer_id = $_POST["buyer_id"];
 
 	$today = strtotime(date("Y-m-d"));
@@ -36,7 +36,7 @@
             echo $json;
   
 	}catch (PDOException $e) {
-            die("Database error : " .$e.getMessage());
+            die("Database error : " .$e->getMessage());
         }
  
     } 

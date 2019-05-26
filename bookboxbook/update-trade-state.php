@@ -24,7 +24,7 @@
 
   
 	}catch (PDOException $e) {
-            die("Database error : " .$e.getMessage());
+            die("Database error : " .$e->getMessage());
         }
  
     } 

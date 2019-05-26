@@ -8,10 +8,12 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $resgister_id = $_POST["register_id"];
+        $register_id = $_POST["register_id"];
 	$seller_id = $_POST["seller_id"];
 
-	$today = strtotime(date("Y-m-d"));
+	$today = date("Y-m-d");
+	echo $register_id;
+	echo $seller_id;
 	echo $today;
 
 	try {
@@ -28,7 +30,8 @@
 
 	    if ($stmt->rowCount() > 0) {
                 $result["success"] = true;
-                $result["box_id"] = $box_row["box_id"];
+		//                $result["box_id"] = $box_row["box_id"];
+		$result["box_id"] = $box_row["box_id"];  
             }
   
 
@@ -36,7 +39,7 @@
             echo $json;
   
 	}catch (PDOException $e) {
-            die("Database error : " .$e.getMessage());
+            die("Database error : " .$e->getMessage());
         }
  
     } 
