@@ -17,7 +17,7 @@
 			// 검색어가 없고 학교가 전체이면
 			if ((empty($searchWord)) && ($searchSchool == "all")) {
 
-				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book ORDER BY book_register_id ASC");
+				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book ORDER BY book_register_id DESC");
 
 			}	
 		

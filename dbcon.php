@@ -1,7 +1,9 @@
 <?php
-    $host = 'localhost';
+	$host = 'localhost';
+	$password = 'gonami';
+//    $host = 'bookboxbook-gonami.cab3bbmb11st.ap-northeast-2.rds.amazonaws.com';
     $username = 'gonami'; # MySQL 계정 아이디
-    $password = 'gonami'; # MySQL 계정 패스워드
+//    $password = 'stonegonami'; # MySQL 계정 패스워드
     $dbname = 'bookboxbook';  # DATABASE 이름
 
 
