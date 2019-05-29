@@ -12,7 +12,7 @@
 	$buyer_id = $_POST["buyer_id"];
 
 	$today = strtotime(date("Y-m-d"));
-	echo $today;
+//	echo $today;
 
 	try {
             $stmt = $con->prepare("SELECT box_id FROM trade NATURAL JOIN reserve_bb WHERE book_register_id=:register_id AND buyer_id=:buyer_id AND date=:today LIMIT 1");

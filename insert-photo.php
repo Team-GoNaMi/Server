@@ -3,10 +3,13 @@
 	$register_id=$_POST["register_id"];    
 	$idx=$_POST["idx"];
 	//		$register_id = $_POST["register_id"];
-
+	$file_dir = "./photos/" .$register_id ."/";
 
 	// 폴더 생성하기
-	$file_path="./photos/". $regiser_id . "/" .$idx. ".jpg";//이미지화일명은 인덱스번호
+	if (!is_dir($file_dir)) {
+	    mkdir($file_dir, 0777);
+	}
+	$file_path = $file_dir .$idx. ".jpg";//이미지화일명은 인덱스번호
 		//$file_path = "";
 		//$file_path = $file_path . basename( $_FILES['uploaded_file']['name']);
 

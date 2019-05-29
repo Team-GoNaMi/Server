@@ -12,9 +12,9 @@
 	$seller_id = $_POST["seller_id"];
 
 	$today = date("Y-m-d");
-	echo $register_id;
-	echo $seller_id;
-	echo $today;
+//	echo $register_id;
+//	echo $seller_id;
+//	echo $today;
 
 	try {
             $stmt = $con->prepare("SELECT box_id FROM register_book NATURAL JOIN reserve_bb WHERE book_register_id=:register_id AND seller_id=:seller_id AND date=:today LIMIT 1");
