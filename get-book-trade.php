@@ -87,7 +87,7 @@
                                 $book_data["selected_school"] = "null";
 
 
-
+/*
 			    // 이미지
 			    $image_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
 			    $image_stmt->bindParam(":register_id", $register_id);
@@ -100,6 +100,7 @@
 			    $image = substr($image, 0, -1);
 
 			    $book_data["book_images"] = $image;
+ */
 			}	
 
 			array_push($whole_data, $book_data);		    

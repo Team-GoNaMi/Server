@@ -77,21 +77,21 @@
 
 					$book_data["school"] = $school;
 
-/*
+
 					// 이미지 추가
 					$photo_stmt = $con->prepare("SELECT * FROM book_photo WHERE book_register_id=:register_id");
 					$photo_stmt->bindParam(":register_id", $register_id);
 					$photo_stmt->execute();
 
 					$photo = "";
-					while($photoRow = $image_stmt->fetch(PDO::FETCH_ASSOC)) {
+					while($photoRow = $photo_stmt->fetch(PDO::FETCH_ASSOC)) {
 						$photo = $photo . $photoRow["photo"] . ",";
 					}
 					$photo = substr($photo, 0, -1);
 
 
 					$book_data["book_photo"] = $photo;
-*/
+
 				}
                     
                 header("Content-Type: application/jason; charset-utf8");
