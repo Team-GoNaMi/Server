@@ -92,16 +92,28 @@
 
 					$book_data["book_photo"] = $photo;
 
+					// 판매자 별점
+					$rate_stmt = $con->prepare("SELECT avg(rate) FROM rate WHERE seller_id=:seller_id");
+					$rate_stmt->bindParam(":seller_id", $user_id);
+					$rate_stmt->execute();
+					$rate_row = $rate_stmt->fetch(PDO::FETCH_ASSOC);
+
+					$rate = $rate_row["avg(rate)"];
+					$book_data["rate"] = $rate;
+
+
+
+
 				}
                     
                 header("Content-Type: application/jason; charset-utf8");
                 echo json_encode($book_data, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
 
             } catch (PDOException $e) {
-                 die("Database error : " .$e.getMessage());
+                 die("Database error : " .$e->getMessage());
             }
 
         }
 
     }
-?>       
+?>      
