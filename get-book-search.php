@@ -17,14 +17,14 @@
 			// 검색어가 없고 학교가 전체이면
 			if ((empty($searchWord)) && ($searchSchool == "all")) {
 
-				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book ORDER BY book_register_id DESC");
+				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book WHERE buy_avail=1 ORDER BY book_register_id DESC");
 
 			}	
 		
 			// 검색어가 없고 학교가 정해지면
 			else if ((empty($searchWord)) && ($searchSchool != "all")){
 	
-				$basic_stmt = $con->prepare("SELECT * FROM book_school NATURAL JOIN register_book NATURAL JOIN book WHERE school=:school ORDER BY book_register_id ASC");
+				$basic_stmt = $con->prepare("SELECT * FROM book_school NATURAL JOIN register_book NATURAL JOIN book WHERE school=:school and buy_avail=1 ORDER BY book_register_id DESC");
 				$basic_stmt->bindParam(":school", $searchSchool);
 
 			}
@@ -32,14 +32,14 @@
 			// 검색어가 있고 학교가 전체이면
 			else if ((isset($searchWord)) && ($searchSchool == "all")) {
 			
-				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book WHERE name LIKE '%$searchWord%' ORDER BY book_register_id ASC");
+				$basic_stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN book WHERE name LIKE '%$searchWord%' and buy_avail=1 ORDER BY book_register_id DESC");
 					
 			}
 		
 			// 검색어가 있고 학교가 정해지면
 			else if ((isset($searchWord)) && ($searchSchool != "all")) {
 			
-				$basic_stmt = $con->prepare("SELECT * FROM book_school NATURAL JOIN register_book NATURAL JOIN book WHERE name LIKE '%$searchWord%' AND school=:school ORDER BY book_register_id ASC");
+				$basic_stmt = $con->prepare("SELECT * FROM book_school NATURAL JOIN register_book NATURAL JOIN book WHERE name LIKE '%$searchWord%' AND school=:school and buy_avail=1 ORDER BY book_register_id DESC");
 				$basic_stmt->bindParam(":school", $searchSchool);
 		
 			}

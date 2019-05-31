@@ -21,7 +21,7 @@
         if (!isset($errMSG)) {
 
             try {
-				$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
+				$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id ORDER BY book_register_id DESC");
 /*	
 				if ($state == "1")		// BookMark
 					$stmt = $con->prepare("SELECT * FROM book_mark WHERE member_id=:member_id");
@@ -112,7 +112,7 @@
 				echo $json;
 	
 			} catch (PDOException $e) {
-				die("Database error : " .$e.getMessage());
+				die("Database error : " .$e->getMessage());
 			}
 		}
     }

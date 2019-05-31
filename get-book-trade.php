@@ -24,10 +24,10 @@
             try {
 	
                 if (strcmp($state, "1") == 0)	// Sell
-                    $stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN trade WHERE seller_id=:member_id");
+                    $stmt = $con->prepare("SELECT * FROM register_book NATURAL JOIN trade WHERE seller_id=:member_id ORDER BY book_register_id DESC");
 
                 else if (strcmp($state, "2") == 0)	// Buy
-                    $stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id");
+                    $stmt = $con->prepare("SELECT * FROM trade WHERE buyer_id=:member_id ORDER BY book_register_id DESC");
 				
                 $stmt->bindParam(":member_id", $user_id);
                 $stmt->execute();
@@ -113,7 +113,7 @@
 		echo $json;
 	
 	    } catch (PDOException $e) {
-		    die("Database error : " .$e.getMessage());
+		    die("Database error : " .$e->getMessage());
 	    }
 	}
     }
