@@ -10,7 +10,11 @@
         $bank_info=$_POST["bank_info"];
         $account_num=$_POST["account_num"];
         $register_id=$_POST["register_id"];
-		
+	
+	echo $bank_info;
+	echo $account_num;
+	echo $register_id;
+
         try{
 			$trade_stmt = $con->prepare("UPDATE trade SET bank=:bank_info, account_num=:account_num, state=6 WHERE book_register_id=:register_id");
 			$trade_stmt->bindParam(":bank_info", $bank_info);
