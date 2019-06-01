@@ -18,7 +18,7 @@
 
 		//구글키는 config.php에 저장되어 있다.
 		$headers = array(
-			'Authorization:key =' . "AIzaSyDSpL3-RZodP_r3F1YRY9WZbAgFDlYXF9I",
+			'Authorization:key =' . "AAAA_CrZ5WA:APA91bFUCNJ24fUk8x6nYkzQ2NWt7lnp-boSL8n4onQJOPq1EbrpAkCFI4Ptl0sOg0kS8szjT74Iy_zq55V-K-NXjJccjGl2dt5Qmu_7UVdiwnFUQ07Ep8Osp_iqPXpVsVcklsfPCfrm",
 			'Content-Type: application/json'
 			);
 
@@ -27,65 +27,24 @@
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);  
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);  
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
 		
 		$result = curl_exec($ch);           
 		
+//		var_dump($result);
+//		print_r(curl_getinfo($ch));
+
+
+
 		if (!$result) {
 			die('Curl failed: ' . curl_error($ch));
        		}
        		curl_close($ch);
        		return $result;
 	}
-
-
-
-
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-    
-	include("../dbcon.php");
-//	include ("../insert-buyer.php");
-/*
-	session_start();
-	if (isset($_SESSION["register_id"])) {
-		$register_id = $_SESSION["register_id"];
-	}
-	else {
-		die('$'."_SESSION['register_id'] isn't set");
-		$register_id = '';
-	}
-//	echo $register_id;
- */
-	$register_id = "20190512235357-1";
-	try {
-		$stmt = $con->prepare("SELECT seller_id, Token 
-					FROM register_book JOIN token ON register_book.seller_id=token.member_id
-					WHERE book_register_id=:register_id
-					LIMIT 1");
-		$stmt->bindParam(":register_id", $register_id);
-		$stmt->execute();
-
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if ($stmt->rowCount() > 0) {
-			$seller_id = $row["seller_id"];
-			$seller_token = $row["Token"];
-		}
-
-	} catch(PDOException $e) {
-		die("Database error : " . $e->getMessage());
-	}
-	
-	$mTitle = "book is sold";
-	$mMessage = "please reserve book box";
-
-	$input_data = array("title" =>$mTitle, "body" => $mMessage);
-
-	$result = send_notification($seller_token, $input_data);
-
-	echo $result;
 ?>
+
+
 
