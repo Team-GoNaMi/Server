@@ -15,7 +15,7 @@
 //	echo $today;
 
 	try {
-            $stmt = $con->prepare("SELECT box_id FROM trade NATURAL JOIN reserve_bb WHERE book_register_id=:register_id AND buyer_id=:buyer_id AND date=:today LIMIT 1");
+            $stmt = $con->prepare("SELECT box_id, date FROM trade NATURAL JOIN reserve_bb WHERE book_register_id=:register_id AND buyer_id=:buyer_id AND date=:today LIMIT 1");
 	    $stmt->bindParam(":register_id", $register_id);
 	    $stmt->bindParam(":buyer_id", $buyer_id);
 	    $stmt->bindParam(":today", $today);
@@ -28,7 +28,8 @@
 
 	    if ($stmt->rowCount() > 0) {
                 $result["success"] = true;
-                $result["box_id"] = $box_row["box_id"];
+		$result["box_id"] = $box_row["box_id"];
+		$result["date"] = $box_row["date"];
             }
   
 
