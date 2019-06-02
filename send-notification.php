@@ -33,8 +33,8 @@
 		
 		$result = curl_exec($ch);           
 		
-//		var_dump($result);
-//		print_r(curl_getinfo($ch));
+		var_dump($result);
+		print_r(curl_getinfo($ch));
 
 
 

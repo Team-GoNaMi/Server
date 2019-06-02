@@ -11,7 +11,9 @@
         $register_id = $_POST["register_id"];
 	$buyer_id = $_POST["buyer_id"];
 
-	$today = strtotime(date("Y-m-d"));
+	$today = date("Y-m-d");
+
+//	echo $register_id;
 //	echo $today;
 
 	try {

@@ -4,3 +4,5 @@ phpmyadmin/
 photos/
 fcm/
 payment.php
+get-book-names.php
+upload-photo.php

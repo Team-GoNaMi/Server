@@ -11,7 +11,8 @@
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android ) {
 
         $register_id=$_POST["register_id"];
-		$user_id = $_POST["user_id"];
+	$user_id = $_POST["user_id"];
+	$seller_id = $_POST["seller_id"];
 
         // 안드로이드 코드의 posParameters 변수에 적어 준 이름을 가지고 값을 전달받습니다.
         if (empty($register_id))
@@ -64,7 +65,7 @@
 
 
 					// 학교 추가
-					$school_stmt = $con->prepare("SELECT * FROM book_school WHERE book_register_id=:register_id");
+					$school_stmt = $con->prepare("SELECT * FROM book_school WHERE book_register_id=:register_id ORDER BY school DESC");
 					$school_stmt->bindParam(":register_id", $register_id);
 					$school_stmt->execute();
 
@@ -93,12 +94,12 @@
 					$book_data["book_photo"] = $photo;
 
 					// 판매자 별점
-					$rate_stmt = $con->prepare("SELECT avg(rate) FROM rate WHERE seller_id=:seller_id");
-					$rate_stmt->bindParam(":seller_id", $user_id);
+					$rate_stmt = $con->prepare("SELECT avg(rate) rate FROM rate group by seller_id having seller_id=:seller_id");
+					$rate_stmt->bindParam(":seller_id", $seller_id);
 					$rate_stmt->execute();
 					$rate_row = $rate_stmt->fetch(PDO::FETCH_ASSOC);
 
-					$rate = $rate_row["avg(rate)"];
+					$rate = $rate_row["rate"];
 					$book_data["rate"] = $rate;
 
 

@@ -10,19 +10,30 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $resgister_id = $_POST["register_id"];
+        $register_id = $_POST["register_id"];
 	$role = $_POST["role"];
-
+	echo $register_id;
+	echo $role;
+	echo gettype($role);
 
 	try {
-	    if ($role)
+	    if ($role == "True") {
 		$update_stmt = $con->prepare("UPDATE trade SET state=3 WHERE book_register_id=:register_id");
-	    else
+	        echo "seller : ";
+	    }
+	    else {
 		$update_stmt = $con->prepare("UPDATE trade SET state=4 WHERE book_register_id=:register_id");
+	        echo "buyer : ";
+	    }
 
 	    $update_stmt->bindParam(":register_id", $register_id);
-	    $update_stmt->execute();
+//	    $update_stmt->execute();
+	    if ($update_stmt->execute())
+		echo "success to update";
+	    else
+		echo "failed to update";
 
+	    echo ($update_stmt->rowCount() > 0 ) ? "Success update" : "No rows update";
 	    // fcm
 	    $push_stmt = $con->prepare("SELECT buyer_id, Token 
 		    			FROM trade JOIN token ON trade.buyer_id=token.member_id 
@@ -42,7 +53,7 @@
 	    $mMessage = "";
 
 
-	    if ($role) {    // 판매자가 책을 넣음 -> 구매자에게 책 가져가세욤
+	    if ($role == "True") {    // 판매자가 책을 넣음 -> 구매자에게 책 가져가세욤
 
                 $mTitle = "북박스에 책이 배달되었습니다.";
                 $mMessage = "북박스에서 책을 가져가 주세요~!";
@@ -55,12 +66,19 @@
 	    }
 
 	    $input_data = array("title" =>$mTitle, "body" => $mMessage);
-            $result = send_notification($seller_token, $input_data);
+            $result = send_notification($buyer_token, $input_data);
 
-            echo $result;
+	    echo $result;
+/*
+	    if (!$role) {
+		// 10분 지연    
+		sleep(600);
+                // 자동으로 구매 확정으로...!!
+		exec();
+	    }
+ */
  
 
-  
 	}catch (PDOException $e) {
             die("Database error : " .$e->getMessage());
         }

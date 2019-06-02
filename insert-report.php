@@ -15,6 +15,31 @@
  	    $update_stmt = $con->prepare("UPDATE trade SET state=7 WHERE book_register_id=:register_id");
 	    $update_stmt->bindParam(":register_id", $register_id);
 	    $update_stmt->execute();
+
+	    // fcm
+            $push_stmt = $con->prepare("SELECT seller_id, Token
+                                        FROM register_book JOIN token ON register_book.seller_id=token.member_id
+                                        WHERE book_register_id=:register_id LIMIT 1");
+            $push_stmt->bindParam(":register_id", $register_id);
+            $push_stmt->execute();
+
+            $row = $push_stmt->fetch(PDO::FETCH_ASSOC);
+            $seller_token = "";
+
+            if ($push_stmt->rowCount() > 0) {
+                $seller_id = $row["seller_id"];
+                $seller_token = $row["Token"];
+            }
+
+            $mTitle = "신고";
+            $mMessage = "구매자가 신고하였습니다.";
+
+
+            $input_data = array("title" =>$mTitle, "body" => $mMessage);
+            $result = send_notification($seller_token, $input_data);
+
+            echo $result;
+
 	
 	} catch(PDOException $e) {
             die("Database error: " . $e->getMessage()); 
