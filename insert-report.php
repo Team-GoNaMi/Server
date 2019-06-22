@@ -2,6 +2,7 @@
     error_reporting(E_ALL); 
     ini_set("display_errors",1); 
     include("dbcon.php");
+    include("send-notification.php");
     $android = strpos($_SERVER["HTTP_USER_AGENT"], "Android");
     error_log("TST",0);
     if( (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST["submit"])) || $android )
